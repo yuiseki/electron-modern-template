@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Tray, Menu, globalShortcut } from 'electron'
+import { app, BrowserWindow, Tray, Menu, globalShortcut, ipcMain } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 
@@ -91,3 +91,14 @@ app.on('ready', () => {
   mainWindow = createMainWindow();
 })
 
+ipcMain.on('sendSync', (event, args) => {
+  console.log('ipcMain sendSync')
+  console.log('\t'+args)
+  event.returnValue = 'huga'
+})
+
+ipcMain.on('sendAsync', (event, args) => {
+  console.log('ipcMain sendAsync')
+  console.log('\t'+args)
+  event.reply('onAsyncReply', 'huga')
+})
