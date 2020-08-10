@@ -10,8 +10,7 @@ declare global {
 
 const ipcRenderer = electron.ipcRenderer;
 
-class MainView extends React.Component {
-  render () {
+const MainView: React.FC = () => {
     const style = {
       margin: '0px',
       padding: '0px',
@@ -22,11 +21,9 @@ class MainView extends React.Component {
       <SyncButton />
       <AsyncButton />
     </div>
-  }
 }
 
-class HelloWorld extends React.Component {
-  render () {
+const HelloWorld: React.FC = () => {
     const style = {
       fontSize: '3em',
       width: '100%'
@@ -34,31 +31,27 @@ class HelloWorld extends React.Component {
     return (
       <h1>Hello world</h1>
     );
-  }
 }
 
-class SyncButton extends React.Component {
-  onClick () {
+const SyncButton: React.FC = () => {
+  function onClick () {
     const reply = ipcRenderer.sendSync('sendSync', "hoge");
     console.log('sync return value')
     console.log('\t'+reply)
   }
-  render () {
-    return (
-      <input type='button' value="sync ipc" onClick={this.onClick} />
-    )
-  }
+
+  return (
+    <input type='button' value="sync ipc" onClick={() => {onClick()}} />
+  )
 }
 
-class AsyncButton extends React.Component {
-  onClick () {
+const AsyncButton: React.FC = () => {
+  function onClick () {
     ipcRenderer.send('sendAsync', "hoge");
   }
-  render () {
-    return (
-      <input type='button' value="async ipc" onClick={this.onClick} />
-    )
-  }
+  return (
+    <input type='button' value="async ipc" onClick={() => {onClick()}} />
+  )
 }
 
 ipcRenderer.on('onAsyncReply', (event, args) => {
